@@ -3,33 +3,50 @@ import fs from 'fs';
 
 import React from 'react';
 import express from 'express';
-import ReactDOMServer from 'react-dom/server';
+import {
+  render
+} from './render';
 import App from '../common/App.js'
+import {reducers, watchers} from '../common/state'
 
-const PORT = process.env.PORT || 3006;
+
+const BASE_ROUTE_APP = process.env['BASE_ROUTE_APP'];
+const INTERNAL_URL_GRAPH = process.env['INTERNAL_URL_GRAPH'];
+const INTERNAL_URL_EVENTS = process.env['INTERNAL_URL_EVENTS'];
+const EXTERNAL_URL_GRAPH = process.env['EXTERNAL_URL_GRAPH'];
+const EXTERNAL_URL_EVENTS = process.env['EXTERNAL_URL_EVENTS'];
+const INTERNAL_PORT_APP = process.env['INTERNAL_PORT_APP'];
+
 const app = express();
 
-
-app.use('/auth/jquery',express.static('node_modules/jquery/dist'));
-app.use('/auth/bootstrap',express.static('node_modules/bootstrap/dist'));
-app.use('/auth/app',express.static('dist/web'));
+app.use(BASE_ROUTE_APP + '/jquery', express.static('node_modules/jquery/dist'));
+app.use(BASE_ROUTE_APP + '/bootstrap', express.static('node_modules/bootstrap/dist'));
+app.use(BASE_ROUTE_APP + '/app', express.static('dist/web'));
 
 app.get('/*', (req, res) => {
-  const app = ReactDOMServer.renderToString(<App />);
 
-  const indexFile = path.resolve('./public/index.html');
-  fs.readFile(indexFile, 'utf8', (err, data) => {
-    if (err) {
-      console.error('Request error.', err);
-      return res.status(500).send('Request error');
+  const cxt = {};
+
+  render({
+    App,
+    req,
+    res,
+    watchers,
+    reducers,
+    urls: {
+      external: {
+        graphql: EXTERNAL_URL_GRAPH,
+        events: EXTERNAL_URL_EVENTS
+      },
+      internal: {
+        graphql: INTERNAL_URL_GRAPH,
+        events: INTERNAL_URL_EVENTS
+      }
     }
+  }, cxt);
 
-    return res.send(
-      data.replace('<div id="root"></div>', `<div id="root">${app}</div>`)
-    );
-  });
 });
 
-app.listen(PORT, () => {
-  console.log(`😎 Server is listening on port.. ${PORT}`);
+app.listen(INTERNAL_PORT_APP, () => {
+  console.log(`Server is listening on port.. ${INTERNAL_PORT_APP}`);
 });
