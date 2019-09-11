@@ -2,8 +2,7 @@ import React from 'react';
 import {renderToNodeStream, renderToString} from 'react-dom/server';
 import {StaticRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import {ApolloProvider} from 'react-apollo';
-import {getDataFromTree} from "react-apollo";
+import {ApolloProvider, getDataFromTree} from 'react-apollo';
 import * as Template from './template'
 
 import fetch from 'node-fetch';
@@ -12,8 +11,8 @@ import {HttpLink} from 'apollo-link-http';
 import {InMemoryCache} from 'apollo-cache-inmemory';
 
 import {createStore, applyMiddleware, combineReducers, compose} from 'redux';
-import createMemoryHistory from 'history/createMemoryHistory';
-import {routerMiddleware} from 'react-router-redux';
+import {routerMiddleware} from 'connected-react-router';
+const createMemoryHistory = require("history").createMemoryHistory;
 
 export const render = ({
   App,
@@ -23,7 +22,7 @@ export const render = ({
       events: EXTERNAL_URL_EVENTS
     },
     internal: {
-      graphql: INTERNAL_URL_GRAPH,
+      graphql:INTERNAL_URL_GRAPH,
       events: INTERNAL_URL_EVENTS
     }
   },
