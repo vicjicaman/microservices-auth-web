@@ -1,6 +1,6 @@
 {
   "name": "@nebulario/microservices-auth-web",
-  "version": "1.70.0-auth-base-cache-data-prod",
+  "version": "1.70.1-auth-base-cache-data-prod",
   "main": "index.js",
   "repository": "git@github.com:vicjicaman/microservices-auth-web.git",
   "author": "Victor Jimenez <vic.jicama@gmail.com>",
