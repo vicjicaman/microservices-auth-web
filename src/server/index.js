@@ -16,14 +16,17 @@ const INTERNAL_PORT_APP = process.env["INTERNAL_PORT_APP"];
 
 const app = express();
 
-app.use(BASE_ROUTE_APP + "/jquery", express.static("node_modules/jquery/dist"));
+app.use(
+  BASE_ROUTE_APP + "/jquery",
+  express.static("/app/node_modules/jquery/dist")
+);
 app.use(
   BASE_ROUTE_APP + "/bootstrap",
-  express.static("node_modules/bootstrap/dist")
+  express.static("/app/node_modules/bootstrap/dist")
 );
 app.use(
   BASE_ROUTE_APP + "/font-awesome",
-  express.static("node_modules/font-awesome")
+  express.static("/app/node_modules/font-awesome")
 );
 app.use(BASE_ROUTE_APP + "/app", express.static("dist/web"));
 
