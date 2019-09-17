@@ -1,7 +1,5 @@
 import React from "react";
 import Root from "Root";
-import { NavLink } from "react-router-dom";
-import { NavItem } from "reactstrap";
 import { Query } from "react-apollo";
 import * as Viewer from "Queries/viewer";
 
@@ -19,15 +17,7 @@ const App = () => {
 
         return (
           <div>
-            <Layout
-              viewer={viewer}
-              login={
-                <NavItem>
-                  <NavLink to="/auth">Login</NavLink>
-                </NavItem>
-              }
-              logout={<Logout />}
-            >
+            <Layout viewer={viewer}>
               <Root viewer={viewer} />
             </Layout>
           </div>
