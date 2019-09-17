@@ -1,7 +1,6 @@
 import React from "react";
 import Root from "Root";
-import { NavLink } from "react-router-dom";
-import { NavItem } from "reactstrap";
+import { withRouter } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import * as Viewer from "Queries/viewer";
@@ -14,25 +13,24 @@ const LOGOUT = gql`
   }
 `;
 
-export default function() {
+export default withRouter(function({ history }) {
   let input;
   const [logout] = useMutation(LOGOUT, {
     refetchQueries: [{ query: Viewer.GET }],
     onCompleted: () => {
-      window.location = "/";
+      history.push("/auth");
     }
   });
 
   return (
-    <NavLink
-      className="nav-link"
-      to="/auth"
+    <button
+      className="btn btn-link"
       onClick={e => {
         e.preventDefault();
         logout();
       }}
     >
       Logout
-    </NavLink>
+    </button>
   );
-}
+});
